@@ -26,13 +26,13 @@ const produtos = [
   { id: 8, nome: 'Banoffe', categoria: 'tortas', preco: 17.0, descricao: 'Base crocante, doce de leite, bananas frescas e uma capa irresistível de chantilly, adicionamos ainda mais encanto com canela polvilhada.', imagem: 'img/WhatsApp Image 2025-12-08 at 18.58.43.jpeg', selo: 'Esgotado' },
 
 
-  { id: 9, nome: 'Choco oreo', categoria: 'tortas', preco: 24.0, descricao: 'Base biscoito oreo, creme mousse de oreo, mousse de chocolate coberto com nossa deliciosa ganache de chocolate belga.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.00.12.jpeg', selo: 'R$24,00' },
+  { id: 9, nome: 'Choco oreo', categoria: 'tortas', preco: 24.0, descricao: 'Base biscoito oreo, creme mousse de oreo, mousse de chocolate coberto com nossa deliciosa ganache de chocolate belga.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.00.12.jpeg', selo: 'Esgotado' },
 
 
   { id: 10, nome: 'Pink', categoria: 'tortas', preco: 26.0, descricao: 'Base crocante de biscoito amanteigado, coberta por um mousse de morango delicado com pedacinhos de frutas vermelhas frescas, finalizada com mousse de limão cremoso que traz equilíbrio e frescor a cada fatia.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.00.13.jpeg', selo: 'Esgotado' },
 
 
-  { id: 11, nome: 'Limão', categoria: 'tortas', preco: 20.0, descricao: 'Deliciosa torta de limão com base de biscoito amanteigado, mousse de limão, finalizada com merengue flambado.', imagem: 'img/WhatsApp Image 2025-12-08 at 19.17.36.jpeg', selo: 'R$20,00' },
+  { id: 11, nome: 'Limão', categoria: 'tortas', preco: 20.0, descricao: 'Deliciosa torta de limão com base de biscoito amanteigado, mousse de limão, finalizada com merengue flambado.', imagem: 'img/WhatsApp Image 2025-12-08 at 19.17.36.jpeg', selo: 'Esgotado' },
 ];
 
 const chips = document.querySelectorAll('.chip');
