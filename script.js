@@ -1,5 +1,5 @@
 const produtos = [
-  { id: 1, nome: 'Maracujá', categoria: 'tortas', preco: 23.5, descricao: 'Irresistível torta com cremoso creme de maracujá, mousse de chocolate com base de biscoito amanteigado de chocolate e coroada com uma deliciosa geleia de maracujá.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.32.40.jpeg', selo: 'R$23,50' },
+  { id: 1, nome: 'Maracujá', categoria: 'tortas', preco: 23.5, descricao: 'Irresistível torta com cremoso creme de maracujá, mousse de chocolate com base de biscoito amanteigado de chocolate e coroada com uma deliciosa geleia de maracujá.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.32.40.jpeg', selo: 'Esgotado' },
 
 
   { id: 2, nome: 'Doce de Leite', categoria: 'tortas', preco: 20.0, descricao: 'Base de biscoito amanteigado, mousse de doce de leite e finalizada com deliciosa cobertura de doce de leite e crocante de amendoim.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.00.11.jpeg', selo: 'Esgotado' },
