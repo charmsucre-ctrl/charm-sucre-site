@@ -146,7 +146,7 @@ function abrirModal(produto) {
         <input id="qtde" type="number" min="1" value="1">
       </label>
       <div class="extras">
-        <p class="extras-title">Adicionar outros sabores Charm. 😁</p>
+        <p class="extras-title">Adicionar outros sabores Charm. 🍰</p>
         ${outrosSabores.map((p) => `
           <label class="extra-row">
             <input type="checkbox" data-nome="${p.nome}">
@@ -194,7 +194,7 @@ function abrirModal(produto) {
         <span>Total estimado</span>
         <strong id="total-valor"></strong>
       </div>
-      <small class="muted" style="margin-top: -0.2rem;">Estimado — frete à parte.</small>
+      <small class="muted" style="margin-top: -0.2rem;">Verificar disponibilidade do sabor escolhido.</small>
     </div>
     <a
       id="cta-whatsapp"
