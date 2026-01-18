@@ -94,6 +94,11 @@ a { color: inherit; text-decoration: none; }
 .card p { color: var(--muted); font-size: 0.95rem; line-height: 1.5; }
 .card .price { margin-top: 0.6rem; font-weight: 700; color: var(--accent); }
 
+.card.soldout { opacity: 0.45; cursor: not-allowed; filter: saturate(0.6); }
+.card.soldout:hover { transform: none; border-color: rgba(232,91,139,0.12); box-shadow: var(--shadow); }
+.card.soldout .img-shell { filter: grayscale(0.3); transform: none; box-shadow: none; }
+.card.soldout .img-shell img { transform: none; }
+
 .contact { padding: 2.5rem 0 3rem; }
 .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.4rem; align-items: start; }
 .contact-card { background: var(--card); padding: 1.2rem; border-radius: var(--radius); border: 1px solid rgba(232,91,139,0.12); box-shadow: var(--shadow); }

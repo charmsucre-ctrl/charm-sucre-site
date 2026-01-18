@@ -68,6 +68,12 @@ function render(categoria) {
   filtrados.forEach((produto) => {
     const card = document.createElement('article');
     card.className = 'card';
+    const isSoldOut = (produto.selo || '').toLowerCase().includes('esgotado');
+    if (isSoldOut) {
+      card.classList.add('soldout');
+      card.setAttribute('aria-disabled', 'true');
+      card.title = 'Indisponível para pedir (Esgotado)';
+    }
     card.innerHTML = `
       <div class="img-shell">
         <span class="pill">${capitalize(produto.categoria)}</span>
@@ -77,12 +83,16 @@ function render(categoria) {
       <h3>${produto.nome}</h3>
       <p>${produto.descricao}</p>
     `;
-    card.addEventListener('click', () => abrirModal(produto));
+    card.addEventListener('click', () => {
+      if (isSoldOut) return;
+      abrirModal(produto);
+    });
     cardsContainer.appendChild(card);
   });
 }
 
 function abrirModal(produto) {
+  if ((produto.selo || '').toLowerCase().includes('esgotado')) return;
   if (!modal || !modalBody) return;
   const outrosSabores = produtos.filter((p) => p.nome !== produto.nome);
   // Use api.whatsapp.com for melhor compatibilidade mobile/web.
