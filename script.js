@@ -13,11 +13,11 @@ const produtos = [
 
 
 
-  { id: 5, nome: 'Ninho com nutella', categoria: 'tortas', preco: 26.5, descricao: 'Base biscoito amanteigado de chocolate, suave creme mousse de ninho, recheado com nutella e uma generosa cobertura de nutella.', imagem: 'img/WhatsApp Image 2025-11-27 at 01.09.26.jpeg', selo: 'R$26,50' },
+  { id: 5, nome: 'Ninho com nutella', categoria: 'tortas', preco: 26.5, descricao: 'Base biscoito amanteigado de chocolate, suave creme mousse de ninho, recheado com nutella e uma generosa cobertura de nutella.', imagem: 'img/WhatsApp Image 2025-11-27 at 01.09.26.jpeg', selo: 'Esgotado' },
 
 
 
-  { id: 6, nome: 'Triplo Chocolate', categoria: 'tortas', preco: 29.0, descricao: 'Deliciosa combinação de três camadas de mousse: chocolate meio amargo, chocolate ao leite e chocolate branco. Finalizada com uma suave ganache de chocolate branco e um Kinder Bueno como toque especial. Uma experiência cremosa e irresistível para os verdadeiros amantes de chocolate.', imagem: 'img/WhatsApp Image 2025-11-29 at 11.03.40.jpeg', selo: 'R$29,00' },
+  { id: 6, nome: 'Triplo Chocolate', categoria: 'tortas', preco: 29.0, descricao: 'Deliciosa combinação de três camadas de mousse: chocolate meio amargo, chocolate ao leite e chocolate branco. Finalizada com uma suave ganache de chocolate branco e um Kinder Bueno como toque especial. Uma experiência cremosa e irresistível para os verdadeiros amantes de chocolate.', imagem: 'img/WhatsApp Image 2025-11-29 at 11.03.40.jpeg', selo: 'Esgotado' },
 
 
   { id: 7, nome: 'Ferrero Rocher', categoria: 'tortas', preco: 26.5, descricao: 'Base de biscoito amanteigado de chocolate recheada com nossa mousse de avelã coberta com ganache de chocolate belga e amendoim torrado. Perfeita para amantes de ferreiro rocher.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.32.14.jpeg', selo: 'R$26,50' },
