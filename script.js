@@ -1,8 +1,8 @@
 const produtos = [
-  { id: 1, nome: 'Maracujá', categoria: 'tortas', preco: 23.5, descricao: 'Irresistível torta com cremoso creme de maracujá, mousse de chocolate com base de biscoito amanteigado de chocolate e coroada com uma deliciosa geleia de maracujá.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.32.40.jpeg', selo: 'Esgotado' },
+  { id: 1, nome: 'Maracujá', categoria: 'tortas', preco: 23.5, descricao: 'Irresistível torta com cremoso creme de maracujá, mousse de chocolate com base de biscoito amanteigado de chocolate e coroada com uma deliciosa geleia de maracujá.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.32.40.jpeg', selo: 'R$23,50' },
 
 
-  { id: 2, nome: 'Doce de Leite', categoria: 'tortas', preco: 20.0, descricao: 'Base de biscoito amanteigado, mousse de doce de leite e finalizada com deliciosa cobertura de doce de leite e crocante de amendoim.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.00.11.jpeg', selo: 'Esgotado' },
+  { id: 2, nome: 'Doce de Leite', categoria: 'tortas', preco: 20.0, descricao: 'Base de biscoito amanteigado, mousse de doce de leite e finalizada com deliciosa cobertura de doce de leite e crocante de amendoim.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.00.11.jpeg', selo: 'R$20,00' },
 
 
 
@@ -13,27 +13,28 @@ const produtos = [
 
 
 
-  { id: 5, nome: 'Ninho com nutella', categoria: 'tortas', preco: 26.5, descricao: 'Base biscoito amanteigado de chocolate, suave creme mousse de ninho, recheado com nutella e uma generosa cobertura de nutella.', imagem: 'img/WhatsApp Image 2025-11-27 at 01.09.26.jpeg', selo: 'Esgotado' },
+  { id: 5, nome: 'Ninho com nutella', categoria: 'tortas', preco: 26.5, descricao: 'Base biscoito amanteigado de chocolate, suave creme mousse de ninho, recheado com nutella e uma generosa cobertura de nutella.', imagem: 'img/WhatsApp Image 2025-11-27 at 01.09.26.jpeg', selo: 'R$26,50' },
 
 
 
-  { id: 6, nome: 'Triplo Chocolate', categoria: 'tortas', preco: 29.0, descricao: 'Deliciosa combinação de três camadas de mousse: chocolate meio amargo, chocolate ao leite e chocolate branco. Finalizada com uma suave ganache de chocolate branco e um Kinder Bueno como toque especial. Uma experiência cremosa e irresistível para os verdadeiros amantes de chocolate.', imagem: 'img/WhatsApp Image 2025-11-29 at 11.03.40.jpeg', selo: 'Esgotado' },
+  { id: 6, nome: 'Triplo Chocolate', categoria: 'tortas', preco: 29.0, descricao: 'Deliciosa combinação de três camadas de mousse: chocolate meio amargo, chocolate ao leite e chocolate branco. Finalizada com uma suave ganache de chocolate branco e um Kinder Bueno como toque especial. Uma experiência cremosa e irresistível para os verdadeiros amantes de chocolate.', imagem: 'img/WhatsApp Image 2025-11-29 at 11.03.40.jpeg', selo: 'R$29,00' },
 
 
   { id: 7, nome: 'Ferrero Rocher', categoria: 'tortas', preco: 26.5, descricao: 'Base de biscoito amanteigado de chocolate recheada com nossa mousse de avelã coberta com ganache de chocolate belga e amendoim torrado. Perfeita para amantes de ferreiro rocher.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.32.14.jpeg', selo: 'R$26,50' },
 
 
-  { id: 8, nome: 'Banoffe', categoria: 'tortas', preco: 17.0, descricao: 'Base crocante, doce de leite, bananas frescas e uma capa irresistível de chantilly, adicionamos ainda mais encanto com canela polvilhada.', imagem: 'img/WhatsApp Image 2025-12-08 at 18.58.43.jpeg', selo: 'Esgotado' },
+  { id: 8, nome: 'Banoffe', categoria: 'tortas', preco: 17.0, descricao: 'Base crocante, doce de leite, bananas frescas e uma capa irresistível de chantilly, adicionamos ainda mais encanto com canela polvilhada.', imagem: 'img/WhatsApp Image 2025-12-08 at 18.58.43.jpeg', selo: 'R$17,00' },
 
 
-  { id: 9, nome: 'Choco oreo', categoria: 'tortas', preco: 24.0, descricao: 'Base biscoito oreo, creme mousse de oreo, mousse de chocolate coberto com nossa deliciosa ganache de chocolate belga.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.00.12.jpeg', selo: 'Esgotado' },
+  { id: 9, nome: 'Choco oreo', categoria: 'tortas', preco: 24.0, descricao: 'Base biscoito oreo, creme mousse de oreo, mousse de chocolate coberto com nossa deliciosa ganache de chocolate belga.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.00.12.jpeg', selo: 'R$24,00' },
 
 
-  { id: 10, nome: 'Pink', categoria: 'tortas', preco: 26.0, descricao: 'Base crocante de biscoito amanteigado, coberta por um mousse de morango delicado com pedacinhos de frutas vermelhas frescas, finalizada com mousse de limão cremoso que traz equilíbrio e frescor a cada fatia.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.00.13.jpeg', selo: 'Esgotado' },
+  { id: 10, nome: 'Pink', categoria: 'tortas', preco: 26.0, descricao: 'Base crocante de biscoito amanteigado, coberta por um mousse de morango delicado com pedacinhos de frutas vermelhas frescas, finalizada com mousse de limão cremoso que traz equilíbrio e frescor a cada fatia.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.00.13.jpeg', selo: 'R$26,00' },
 
 
-  { id: 11, nome: 'Limão', categoria: 'tortas', preco: 20.0, descricao: 'Deliciosa torta de limão com base de biscoito amanteigado, mousse de limão, finalizada com merengue flambado.', imagem: 'img/WhatsApp Image 2025-12-08 at 19.17.36.jpeg', selo: 'Esgotado' },
+  { id: 11, nome: 'Limão', categoria: 'tortas', preco: 20.0, descricao: 'Deliciosa torta de limão com base de biscoito amanteigado, mousse de limão, finalizada com merengue flambado.', imagem: 'img/WhatsApp Image 2025-12-08 at 19.17.36.jpeg', selo: 'R$20,00' },
 ];
+
 
 const chips = document.querySelectorAll('.chip');
 const cardsContainer = document.getElementById('cards');
