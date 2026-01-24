@@ -142,20 +142,27 @@ function abrirModal(produto) {
 
   const buildMessage = () => {
     const { qtd, extras, pagamento, entrega, total, clienteNome, pedidoNumero } = collectOrder();
-    const partes = ['Olá, tudo bem? Quero fazer um pedido:'];
-    if (clienteNome) partes.push(`*Cliente:*  ${clienteNome}`);
-    if (pedidoNumero) partes.push(`*Pedido Nº:*  ${pedidoNumero}`);
-    partes.push(`${qtd}x ${produto.nome}`);
+    const itens = [`➡ ${qtd}x ${produto.nome}`];
     if (extras.length) {
-      extras.forEach((e) => partes.push(`${e.q}x ${e.nome}`));
+      extras.forEach((e) => itens.push(`➡ ${e.q}x ${e.nome}`));
     }
-    partes.push('', `*Total estimado:* ${formatPrice(total)}`);
-    if (entrega) {
-      partes.push(`*Entrega/Retirada:*  *${entrega}*`);
-    }
-    if (pagamento) {
-      partes.push(`*Pagamento:*  *${pagamento}*`);
-    }
+
+    const pagamentoIcon = pagamento?.toLowerCase().includes('pix')
+      ? '📲'
+      : pagamento?.toLowerCase().includes('cartão')
+        ? '💳'
+        : '💵';
+    const entregaLabel = entrega
+      ? (entrega.toLowerCase().includes('entrega') ? '🛵 Entrega' : '🛍️ Retirada')
+      : '';
+
+    const partes = [];
+    if (pedidoNumero) partes.push(`Pedido nº ${pedidoNumero}`);
+    if (clienteNome) partes.push(`Cliente: ${clienteNome}`);
+    partes.push('', ' ➡️ Itens:', ...itens);
+    if (pagamento) partes.push('', `${pagamentoIcon} ${pagamento}`);
+    if (entregaLabel) partes.push('', entregaLabel);
+    partes.push('', `Total: ${formatPrice(total)}`, '', 'Obrigado, a Charm agradece sua preferência! 💕');
     // Usa CRLF para forçar quebra de linha no WhatsApp (iOS gosta de \r\n).
     return encodeURIComponent(partes.join('\r\n'));
   };
@@ -194,26 +201,26 @@ function abrirModal(produto) {
         <p class="extras-title">Forma de pagamento</p>
         <label class="payment-option">
           <input type="radio" name="pay-option" value="PIX">
-          <span>PIX - (enviamos a chave na confirmação)</span>
+          <span> 📲 PIX - (enviamos a chave na confirmação)</span>
         </label>
         <label class="payment-option">
           <input type="radio" name="pay-option" value="Cartão (crédito)">
-          <span>Cartão - (crédito / mandamos o link de pagamento)</span>
+          <span> 💳 Cartão - (crédito / mandamos o link de pagamento)</span>
         </label>
         <label class="payment-option">
           <input type="radio" name="pay-option" value="Dinheiro (preciso de troco)">
-          <span>Dinheiro - (informar troco)</span>
+          <span> 💵 Dinheiro - (informar troco)</span>
         </label>
       </div>
       <div class="payments">
         <p class="extras-title">Entrega / Retirada</p>
         <label class="payment-option">
           <input type="radio" name="entrega-option" value="Entrega!">
-          <span>Entrega - (consultar taxa e informar endereço de entrega)</span>
+          <span> 🛵 Entrega - (consultar taxa e informar endereço de entrega)</span>
         </label>
         <label class="payment-option">
           <input type="radio" name="entrega-option" value="Retirada">
-          <span>Retirada </span>
+          <span> 🛍️ Retirada </span>
         </label>
       </div>
       <label class="fancy-block">
