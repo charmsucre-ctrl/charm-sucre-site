@@ -23,7 +23,7 @@ const produtos = [
   { id: 7, nome: 'Ferrero Rocher', categoria: 'tortas', preco: 26.5, descricao: 'Base de biscoito amanteigado de chocolate recheada com nossa mousse de avelã coberta com ganache de chocolate belga e amendoim torrado. Perfeita para amantes de ferreiro rocher.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.32.14.jpeg', selo: 'R$26,50' },
 
 
-  { id: 8, nome: 'Banoffe', categoria: 'tortas', preco: 17.0, descricao: 'Base crocante, doce de leite, bananas frescas e uma capa irresistível de chantilly, adicionamos ainda mais encanto com canela polvilhada.', imagem: 'img/WhatsApp Image 2025-12-08 at 18.58.43.jpeg', selo: 'R$17,00' },
+  { id: 8, nome: 'Banoffe', categoria: 'tortas', preco: 17.0, descricao: 'Base crocante, doce de leite, bananas frescas e uma capa irresistível de chantilly, adicionamos ainda mais encanto com canela polvilhada.', imagem: 'img/WhatsApp Image 2025-12-08 at 18.58.43.jpeg', selo: 'Esgotado' },
 
 
   { id: 9, nome: 'Choco oreo', categoria: 'tortas', preco: 24.0, descricao: 'Base biscoito oreo, creme mousse de oreo, mousse de chocolate coberto com nossa deliciosa ganache de chocolate belga.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.00.12.jpeg', selo: 'R$24,00' },
@@ -159,7 +159,7 @@ function abrirModal(produto) {
     const partes = [];
     if (pedidoNumero) partes.push(`Pedido nº ${pedidoNumero}`);
     if (clienteNome) partes.push(`Cliente: ${clienteNome}`);
-    partes.push('', ' ➡️ Itens:', ...itens);
+    partes.push('', 'Itens:',...itens);
     if (pagamento) partes.push('', `${pagamentoIcon} ${pagamento}`);
     if (entregaLabel) partes.push('', entregaLabel);
     partes.push('', `Total: ${formatPrice(total)}`, '', 'Obrigado, a Charm agradece sua preferência! 💕');
