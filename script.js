@@ -388,33 +388,36 @@ function hasPrintAccess() {
 
 function renderPrintSheet({ produto, order, pagamento, entrega }) {
   if (!printSheet || !order) return;
-  const extrasList = order.extras.length
-    ? order.extras.map((e) => `<li><span>${e.q}x ${e.nome}</span><span>${formatPrice(getPreco(e) * e.q)}</span></li>`).join('')
-    : '<li><span>Sem adicionais</span><span>—</span></li>';
-  const entregaLabel = entrega || 'Não informado';
-  const pagamentoLabel = pagamento || 'Não informado';
+  const entregaLabel = entrega || '—';
+  const pagamentoLabel = pagamento || '—';
   const dataAtual = formatDateTime();
+  const linhas = [];
+  linhas.push(`Pedido nº ${order.pedidoNumero || '—'}`);
+  linhas.push(`Cliente: ${order.clienteNome || '—'}`);
+  linhas.push(`Data: ${dataAtual}`);
+  linhas.push('');
+  linhas.push('Itens:');
+  linhas.push(`➡ ${order.qtd}x ${produto.nome}`);
+  if (order.extras.length) {
+    order.extras.forEach((e) => linhas.push(`➡ ${e.q}x ${e.nome}`));
+  }
+  linhas.push('');
+  linhas.push(`Pagamento: ${pagamentoLabel}`);
+  linhas.push(`Entrega/Retirada: ${entregaLabel}`);
+  linhas.push('');
+  linhas.push(`Total: ${formatPrice(order.total)}`);
+  linhas.push('');
+  linhas.push('Obrigado, a Charm agradece sua preferência!');
 
-  printSheet.innerHTML = `
-    <section class="print-card">
-      <div class="print-logo">CHARM SUCRÉ</div>
-      <div class="print-title">PEDIDO #${order.pedidoNumero || '—'}</div>
-      <div class="print-meta-row"><span>Data</span><span>${dataAtual}</span></div>
-      <div class="print-divider"></div>
-      <div class="print-meta-row"><span>Cliente</span><span>${order.clienteNome || '—'}</span></div>
-      <div class="print-meta-row"><span>Entrega/Retirada</span><span>${entregaLabel}</span></div>
-      <div class="print-meta-row"><span>Pagamento</span><span>${pagamentoLabel}</span></div>
-      <div class="print-divider thick"></div>
-      <ul class="print-items">
-        <li><span>${order.qtd}x ${produto.nome}</span><span>${formatPrice(getPreco(produto) * order.qtd)}</span></li>
-      </ul>
-      <div class="print-subtitle">Adicionais</div>
-      <ul class="print-items">${extrasList}</ul>
-      <div class="print-divider"></div>
-      <div class="print-total"><span>Total</span><span>${formatPrice(order.total)}</span></div>
-      <div class="print-note">Obrigado! Apresente esta comanda na produção/entrega.</div>
-    </section>
-  `;
+  const texto = linhas.join('\n');
+  printSheet.innerHTML = '';
+  const card = document.createElement('section');
+  card.className = 'print-card';
+  const pre = document.createElement('pre');
+  pre.className = 'print-pre';
+  pre.textContent = texto;
+  card.appendChild(pre);
+  printSheet.appendChild(card);
   printSheet.setAttribute('aria-hidden', 'false');
 }
 

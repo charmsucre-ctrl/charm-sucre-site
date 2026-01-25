@@ -206,7 +206,7 @@ a { color: inherit; text-decoration: none; }
 
 .print-sheet { display: none; padding: 1rem; }
 .print-sheet[aria-hidden="false"] { display: block; }
-.print-card { width: 58mm; max-width: 58mm; margin: 0 auto; background: #fff; border: 1px dashed #cfcfcf; border-radius: 3px; padding: 0.35rem; box-shadow: none; font-family: 'Courier New', monospace; color: #222; line-height: 1.2; word-break: break-word; page-break-inside: avoid; }
+.print-card { width: 58mm; max-width: 58mm; margin: 0 auto; background: #fff; border: 1px dashed #cfcfcf; border-radius: 3px; padding: 0.4rem; box-shadow: none; font-family: 'Courier New', 'Consolas', monospace; font-size: 13.5px; color: #000; line-height: 1.3; word-break: break-word; page-break-inside: avoid; }
 .print-logo { text-align: center; font-weight: 800; letter-spacing: 0.06em; margin-bottom: 0.08rem; font-size: 0.9rem; }
 .print-title { text-align: center; font-weight: 800; margin-bottom: 0.15rem; font-size: 0.9rem; }
 .print-meta-row { display: flex; justify-content: space-between; font-size: 0.88rem; font-weight: 700; }
@@ -219,9 +219,11 @@ a { color: inherit; text-decoration: none; }
 .print-subtitle { margin: 0.15rem 0 0.04rem; font-weight: 800; font-size: 0.88rem; }
 .print-total { display: flex; justify-content: space-between; font-weight: 800; font-size: 0.95rem; margin-top: 0.15rem; }
 .print-note { text-align: center; font-size: 0.75rem; margin-top: 0.2rem; color: #444; }
+.print-pre { margin: 0; white-space: pre-wrap; font-family: inherit; font-size: inherit; line-height: inherit; }
 
 @media print {
     @page { size: 58mm auto; margin: 0; }
+    html, body { width: 58mm; max-width: 58mm; margin: 0 auto; padding: 0; }
     body * { visibility: hidden; }
     #print-sheet, #print-sheet * {
         visibility: visible;
@@ -235,7 +237,7 @@ a { color: inherit; text-decoration: none; }
         width: 58mm;
         max-width: 58mm;
         margin: 0 auto;
-        background: #fff;
+        background: #fff !important;
         padding: 2px;
     }
     .print-card { box-shadow: none; border-color: rgba(0,0,0,0.2); margin: 0 auto; }
