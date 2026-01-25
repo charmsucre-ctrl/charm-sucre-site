@@ -223,7 +223,12 @@ a { color: inherit; text-decoration: none; }
 @media print {
     @page { size: 58mm auto; margin: 0; }
     body * { visibility: hidden; }
-    #print-sheet, #print-sheet * { visibility: visible; }
+    #print-sheet, #print-sheet * {
+        visibility: visible;
+        color: #000 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
     #print-sheet {
         position: absolute;
         inset: 0;
