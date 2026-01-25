@@ -36,11 +36,13 @@ const produtos = [
 ];
 
 
+const COMANDA_PIN = '2468';
 const chips = document.querySelectorAll('.chip');
 const cardsContainer = document.getElementById('cards');
 const modal = document.getElementById('modal');
 const modalBody = document.getElementById('modal-body');
 const closeBtn = document.querySelector('.modal .close');
+const printSheet = document.getElementById('print-sheet');
 const productIndex = new Map(produtos.map((p) => [p.nome, p]));
 
 function generateOrderNumber() {
@@ -237,7 +239,9 @@ function abrirModal(produto) {
       </div>
       <small class="muted" style="margin-top: -0.2rem;">Verificar disponibilidade do sabor escolhido.</small>
     </div>
-    <div style="display:flex; gap:0.5rem; flex-direction:column;">
+    <div class="print-actions" style="display:flex; gap:0.5rem; flex-direction:column;">
+      <button id="btn-print" class="ghost admin-only" style="width:100%; text-align:center; font-size:0.9rem; opacity:0.8;">Salvar/Imprimir comanda (interno)</button>
+      <button id="btn-admin-unlock" class="ghost" style="width:100%; text-align:center; font-size:0.8rem; opacity:0.6;">Uso interno</button>
       <a
         id="cta-whatsapp"
         class="cta"
@@ -250,6 +254,7 @@ function abrirModal(produto) {
   `;
 
   const cta = modalBody.querySelector('#cta-whatsapp');
+  const adminUnlockBtn = modalBody.querySelector('#btn-admin-unlock');
   const qtdeInput = modalBody.querySelector('#qtde');
   const clienteNomeInput = modalBody.querySelector('#cliente-nome');
   const pedidoNumeroInput = modalBody.querySelector('#pedido-numero');
@@ -258,6 +263,25 @@ function abrirModal(produto) {
   const payRadios = modalBody.querySelectorAll('input[name="pay-option"]');
   const entregaRadios = modalBody.querySelectorAll('input[name="entrega-option"]');
   const totalValor = modalBody.querySelector('#total-valor');
+  const printBtn = modalBody.querySelector('#btn-print');
+
+  const showPrintBtn = () => {
+    if (!printBtn) return;
+    printBtn.classList.remove('admin-only');
+    printBtn.style.opacity = '1';
+  };
+
+  const ensureAdminUnlocked = () => {
+    if (hasComandaAccess()) {
+      showPrintBtn();
+      return true;
+    }
+    if (verifyComandaAccess()) {
+      showPrintBtn();
+      return true;
+    }
+    return false;
+  };
 
   const syncLink = () => {
     if (!cta) return;
@@ -270,10 +294,20 @@ function abrirModal(produto) {
       cta.classList.remove('disabled');
       cta.removeAttribute('aria-disabled');
       cta.href = `${waBase}${buildMessage()}`;
+      if (printBtn) {
+        printBtn.classList.remove('disabled');
+        printBtn.removeAttribute('aria-disabled');
+        printBtn.disabled = false;
+      }
     } else {
       cta.classList.add('disabled');
       cta.setAttribute('aria-disabled', 'true');
       cta.removeAttribute('href');
+      if (printBtn) {
+        printBtn.classList.add('disabled');
+        printBtn.setAttribute('aria-disabled', 'true');
+        printBtn.disabled = true;
+      }
     }
   };
 
@@ -293,12 +327,44 @@ function abrirModal(produto) {
     cta.addEventListener('click', (e) => {
       if (cta.classList.contains('disabled')) return;
       e.preventDefault();
+      if (hasComandaAccess()) {
+        const orderData = collectOrder();
+        const texto = renderPrintSheet({
+          produto,
+          order: orderData,
+          pagamento: getPagamento(),
+          entrega: getEntrega(),
+        });
+        if (texto) storeComanda(texto);
+      }
       const msg = buildMessage();
       // tenta abrir o app do WhatsApp; se não abrir, cai para o link web
       window.location.href = `${waAppBase}${msg}`;
       setTimeout(() => {
         window.location.href = `${waBase}${msg}`;
       }, 600);
+    });
+  }
+  if (adminUnlockBtn) {
+    adminUnlockBtn.addEventListener('click', () => {
+      ensureAdminUnlocked();
+    });
+  }
+  if (printBtn) {
+    printBtn.addEventListener('click', () => {
+      if (printBtn.classList.contains('disabled')) return;
+      if (!ensureAdminUnlocked()) return;
+      const orderData = collectOrder();
+      const texto = renderPrintSheet({
+        produto,
+        order: orderData,
+        pagamento: getPagamento(),
+        entrega: getEntrega(),
+      });
+      if (texto) {
+        storeComanda(texto);
+        openComandaTab(texto);
+      }
     });
   }
   if (pedidoNumeroInput) pedidoNumeroInput.value = generateOrderNumber();
@@ -339,4 +405,88 @@ function parsePriceFromSelo(selo = '') {
   if (!match) return NaN;
   const normalized = match[1].replace('.', '').replace(',', '.');
   return Number(normalized);
+}
+
+function verifyComandaAccess() {
+  const stored = localStorage.getItem('comanda-access');
+  if (stored === 'granted') return true;
+  const code = window.prompt('Digite o PIN da comanda');
+  if (code === COMANDA_PIN) {
+    localStorage.setItem('comanda-access', 'granted');
+    return true;
+  }
+  alert('PIN incorreto.');
+  return false;
+}
+
+function hasComandaAccess() {
+  return localStorage.getItem('comanda-access') === 'granted';
+}
+
+function renderPrintSheet({ produto, order, pagamento, entrega }) {
+  if (!printSheet || !order) return;
+  const entregaLabel = entrega || '—';
+  const pagamentoLabel = pagamento || '—';
+  const dataAtual = formatDateTime();
+  const linhas = [];
+  linhas.push(`Pedido nº ${order.pedidoNumero || '—'}`);
+  linhas.push(`Cliente: ${order.clienteNome || '—'}`);
+  linhas.push(`Data: ${dataAtual}`);
+  linhas.push('');
+  linhas.push('Itens:');
+  linhas.push(`➡ ${order.qtd}x ${produto.nome}`);
+  if (order.extras.length) {
+    order.extras.forEach((e) => linhas.push(`➡ ${e.q}x ${e.nome}`));
+  }
+  linhas.push('');
+  linhas.push(`Pagamento: ${pagamentoLabel}`);
+  linhas.push(`Entrega/Retirada: ${entregaLabel}`);
+  linhas.push('');
+  linhas.push(`Total: ${formatPrice(order.total)}`);
+  linhas.push('');
+  linhas.push('Obrigado, a Charm agradece sua preferência!');
+
+  const texto = linhas.join('\n');
+  printSheet.innerHTML = '';
+  const card = document.createElement('section');
+  card.className = 'print-card';
+  const pre = document.createElement('pre');
+  pre.className = 'print-pre';
+  pre.textContent = texto;
+  card.appendChild(pre);
+  printSheet.appendChild(card);
+  printSheet.setAttribute('aria-hidden', 'false');
+  return texto;
+}
+
+function formatDateTime() {
+  return new Date().toLocaleString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
+function openComandaTab(texto) {
+  try {
+    localStorage.setItem('comanda-data', texto);
+  } catch (e) {
+    console.warn('Não foi possível salvar comanda localmente', e);
+  }
+  window.open('../tcc/index.html', '_blank');
+}
+
+function storeComanda(texto) {
+  try {
+    localStorage.setItem('comanda-data', texto);
+    const key = 'comanda-list';
+    const list = JSON.parse(localStorage.getItem(key) || '[]');
+    list.push({ id: Date.now(), texto });
+    const trimmed = list.slice(-15);
+    localStorage.setItem(key, JSON.stringify(trimmed));
+  } catch (e) {
+    console.warn('Não foi possível salvar comanda localmente', e);
+  }
 }
