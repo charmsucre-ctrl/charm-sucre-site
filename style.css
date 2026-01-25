@@ -206,23 +206,26 @@ a { color: inherit; text-decoration: none; }
 
 .print-sheet { display: none; padding: 1rem; }
 .print-sheet[aria-hidden="false"] { display: block; }
-.print-card { width: 360px; margin: 0 auto; background: #fff; border: 1px dashed #cfcfcf; border-radius: 6px; padding: 0.9rem; box-shadow: 0 10px 24px rgba(0,0,0,0.08); font-family: 'Courier New', monospace; color: #222; }
+.print-card { width: 80mm; max-width: 80mm; margin: 0 auto; background: #fff; border: 1px dashed #cfcfcf; border-radius: 4px; padding: 0.6rem; box-shadow: 0 8px 18px rgba(0,0,0,0.08); font-family: 'Courier New', monospace; color: #222; line-height: 1.35; word-break: break-word; }
 .print-logo { text-align: center; font-weight: 800; letter-spacing: 0.12em; margin-bottom: 0.2rem; }
 .print-title { text-align: center; font-weight: 800; margin-bottom: 0.4rem; }
 .print-meta-row { display: flex; justify-content: space-between; font-size: 0.92rem; font-weight: 700; }
 .print-divider { border-top: 1px dashed #b3b3b3; margin: 0.45rem 0; }
 .print-divider.thick { border-top-width: 2px; }
 .print-items { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.25rem; }
-.print-items li { display: flex; justify-content: space-between; font-weight: 700; }
+.print-items li { display: flex; justify-content: space-between; gap: 0.4rem; font-weight: 700; }
+.print-items li span:first-child { flex: 1 1 auto; }
+.print-items li span:last-child { white-space: nowrap; }
 .print-subtitle { margin: 0.35rem 0 0.1rem; font-weight: 800; font-size: 0.95rem; }
 .print-total { display: flex; justify-content: space-between; font-weight: 800; font-size: 1.05rem; margin-top: 0.35rem; }
 .print-note { text-align: center; font-size: 0.85rem; margin-top: 0.45rem; color: #444; }
 
 @media print {
+    @page { size: 80mm auto; margin: 0; }
     body * { visibility: hidden; }
     #print-sheet, #print-sheet * { visibility: visible; }
-    #print-sheet { position: absolute; inset: 0; width: 100%; background: #fff; padding: 20px; display: grid; place-items: center; }
-    .print-card { box-shadow: none; border-color: rgba(0,0,0,0.18); }
+    #print-sheet { position: absolute; inset: 0; width: 100%; background: #fff; padding: 6px; display: grid; place-items: center; }
+    .print-card { box-shadow: none; border-color: rgba(0,0,0,0.25); }
 }
 
 
