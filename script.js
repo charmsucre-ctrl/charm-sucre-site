@@ -36,13 +36,11 @@ const produtos = [
 ];
 
 
-const PRINT_PIN = '2468'; // PIN simples para liberar impressão
 const chips = document.querySelectorAll('.chip');
 const cardsContainer = document.getElementById('cards');
 const modal = document.getElementById('modal');
 const modalBody = document.getElementById('modal-body');
 const closeBtn = document.querySelector('.modal .close');
-const printSheet = document.getElementById('print-sheet');
 const productIndex = new Map(produtos.map((p) => [p.nome, p]));
 
 function generateOrderNumber() {
@@ -239,7 +237,6 @@ function abrirModal(produto) {
       </div>
       <small class="muted" style="margin-top: -0.2rem;">Verificar disponibilidade do sabor escolhido.</small>
     </div>
-    <button id="btn-print" class="ghost" style="width:100%; text-align:center; margin-top: 0.4rem;">Imprimir pedido</button>
     <a
       id="cta-whatsapp"
       class="cta"
@@ -259,25 +256,6 @@ function abrirModal(produto) {
   const payRadios = modalBody.querySelectorAll('input[name="pay-option"]');
   const entregaRadios = modalBody.querySelectorAll('input[name="entrega-option"]');
   const totalValor = modalBody.querySelector('#total-valor');
-  const printBtn = modalBody.querySelector('#btn-print');
-
-  if (printBtn && !hasPrintAccess()) {
-    printBtn.classList.add('admin-only');
-  }
-
-  const toggleAction = (el, isDisabled) => {
-    if (!el) return;
-    if (isDisabled) {
-      el.classList.add('disabled');
-      el.setAttribute('aria-disabled', 'true');
-      if (el.tagName === 'A') el.removeAttribute('href');
-      if (el.tagName === 'BUTTON') el.disabled = true;
-    } else {
-      el.classList.remove('disabled');
-      el.removeAttribute('aria-disabled');
-      if (el.tagName === 'BUTTON') el.disabled = false;
-    }
-  };
 
   const syncLink = () => {
     if (!cta) return;
@@ -286,9 +264,15 @@ function abrirModal(produto) {
     const pagamento = getPagamento();
     const entrega = getEntrega();
     const ready = Boolean(clienteNome && pedidoNumero && pagamento && entrega);
-    toggleAction(cta, !ready);
-    if (ready) cta.href = `${waBase}${buildMessage()}`;
-    toggleAction(printBtn, !ready);
+    if (ready) {
+      cta.classList.remove('disabled');
+      cta.removeAttribute('aria-disabled');
+      cta.href = `${waBase}${buildMessage()}`;
+    } else {
+      cta.classList.add('disabled');
+      cta.setAttribute('aria-disabled', 'true');
+      cta.removeAttribute('href');
+    }
   };
 
   qtdeInput?.addEventListener('input', syncLink);
@@ -313,21 +297,6 @@ function abrirModal(produto) {
       setTimeout(() => {
         window.location.href = `${waBase}${msg}`;
       }, 600);
-    });
-  }
-  if (printBtn) {
-    printBtn.addEventListener('click', () => {
-      if (printBtn.classList.contains('disabled')) return;
-      if (!hasPrintAccess() && !verifyPrintAccess()) return;
-      printBtn.classList.remove('admin-only');
-      const orderData = collectOrder();
-      renderPrintSheet({
-        produto,
-        order: orderData,
-        pagamento: getPagamento(),
-        entrega: getEntrega(),
-      });
-      window.print();
     });
   }
   if (pedidoNumeroInput) pedidoNumeroInput.value = generateOrderNumber();
@@ -368,65 +337,4 @@ function parsePriceFromSelo(selo = '') {
   if (!match) return NaN;
   const normalized = match[1].replace('.', '').replace(',', '.');
   return Number(normalized);
-}
-
-function verifyPrintAccess() {
-  const stored = localStorage.getItem('print-access');
-  if (stored === 'granted') return true;
-  const code = window.prompt('Digite o PIN de impressão');
-  if (code === PRINT_PIN) {
-    localStorage.setItem('print-access', 'granted');
-    return true;
-  }
-  alert('PIN incorreto.');
-  return false;
-}
-
-function hasPrintAccess() {
-  return localStorage.getItem('print-access') === 'granted';
-}
-
-function renderPrintSheet({ produto, order, pagamento, entrega }) {
-  if (!printSheet || !order) return;
-  const entregaLabel = entrega || '—';
-  const pagamentoLabel = pagamento || '—';
-  const dataAtual = formatDateTime();
-  const linhas = [];
-  linhas.push(`Pedido nº ${order.pedidoNumero || '—'}`);
-  linhas.push(`Cliente: ${order.clienteNome || '—'}`);
-  linhas.push(`Data: ${dataAtual}`);
-  linhas.push('');
-  linhas.push('Itens:');
-  linhas.push(`➡ ${order.qtd}x ${produto.nome}`);
-  if (order.extras.length) {
-    order.extras.forEach((e) => linhas.push(`➡ ${e.q}x ${e.nome}`));
-  }
-  linhas.push('');
-  linhas.push(`Pagamento: ${pagamentoLabel}`);
-  linhas.push(`Entrega/Retirada: ${entregaLabel}`);
-  linhas.push('');
-  linhas.push(`Total: ${formatPrice(order.total)}`);
-  linhas.push('');
-  linhas.push('Obrigado, a Charm agradece sua preferência!');
-
-  const texto = linhas.join('\n');
-  printSheet.innerHTML = '';
-  const card = document.createElement('section');
-  card.className = 'print-card';
-  const pre = document.createElement('pre');
-  pre.className = 'print-pre';
-  pre.textContent = texto;
-  card.appendChild(pre);
-  printSheet.appendChild(card);
-  printSheet.setAttribute('aria-hidden', 'false');
-}
-
-function formatDateTime() {
-  return new Date().toLocaleString('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
 }
