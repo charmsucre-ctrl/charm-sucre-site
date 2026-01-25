@@ -36,11 +36,13 @@ const produtos = [
 ];
 
 
+const PRINT_PIN = '2468'; // PIN simples para liberar impressão
 const chips = document.querySelectorAll('.chip');
 const cardsContainer = document.getElementById('cards');
 const modal = document.getElementById('modal');
 const modalBody = document.getElementById('modal-body');
 const closeBtn = document.querySelector('.modal .close');
+const printSheet = document.getElementById('print-sheet');
 const productIndex = new Map(produtos.map((p) => [p.nome, p]));
 
 function generateOrderNumber() {
@@ -237,6 +239,7 @@ function abrirModal(produto) {
       </div>
       <small class="muted" style="margin-top: -0.2rem;">Verificar disponibilidade do sabor escolhido.</small>
     </div>
+    <button id="btn-print" class="ghost" style="width:100%; text-align:center; margin-top: 0.4rem;">Imprimir pedido</button>
     <a
       id="cta-whatsapp"
       class="cta"
@@ -256,40 +259,36 @@ function abrirModal(produto) {
   const payRadios = modalBody.querySelectorAll('input[name="pay-option"]');
   const entregaRadios = modalBody.querySelectorAll('input[name="entrega-option"]');
   const totalValor = modalBody.querySelector('#total-valor');
+  const printBtn = modalBody.querySelector('#btn-print');
+
+  if (printBtn && !hasPrintAccess()) {
+    printBtn.classList.add('admin-only');
+  }
+
+  const toggleAction = (el, isDisabled) => {
+    if (!el) return;
+    if (isDisabled) {
+      el.classList.add('disabled');
+      el.setAttribute('aria-disabled', 'true');
+      if (el.tagName === 'A') el.removeAttribute('href');
+      if (el.tagName === 'BUTTON') el.disabled = true;
+    } else {
+      el.classList.remove('disabled');
+      el.removeAttribute('aria-disabled');
+      if (el.tagName === 'BUTTON') el.disabled = false;
+    }
+  };
 
   const syncLink = () => {
     if (!cta) return;
     const { total, clienteNome, pedidoNumero } = collectOrder();
     if (totalValor) totalValor.textContent = formatPrice(total);
-    if (!clienteNome) {
-      cta.classList.add('disabled');
-      cta.setAttribute('aria-disabled', 'true');
-      cta.removeAttribute('href');
-      return;
-    }
-    if (!pedidoNumero) {
-      cta.classList.add('disabled');
-      cta.setAttribute('aria-disabled', 'true');
-      cta.removeAttribute('href');
-      return;
-    }
     const pagamento = getPagamento();
     const entrega = getEntrega();
-    if (!pagamento) {
-      cta.classList.add('disabled');
-      cta.setAttribute('aria-disabled', 'true');
-      cta.removeAttribute('href');
-      return;
-    }
-    if (!entrega) {
-      cta.classList.add('disabled');
-      cta.setAttribute('aria-disabled', 'true');
-      cta.removeAttribute('href');
-      return;
-    }
-    cta.classList.remove('disabled');
-    cta.removeAttribute('aria-disabled');
-    cta.href = `${waBase}${buildMessage()}`;
+    const ready = Boolean(clienteNome && pedidoNumero && pagamento && entrega);
+    toggleAction(cta, !ready);
+    if (ready) cta.href = `${waBase}${buildMessage()}`;
+    toggleAction(printBtn, !ready);
   };
 
   qtdeInput?.addEventListener('input', syncLink);
@@ -314,6 +313,21 @@ function abrirModal(produto) {
       setTimeout(() => {
         window.location.href = `${waBase}${msg}`;
       }, 600);
+    });
+  }
+  if (printBtn) {
+    printBtn.addEventListener('click', () => {
+      if (printBtn.classList.contains('disabled')) return;
+      if (!hasPrintAccess() && !verifyPrintAccess()) return;
+      printBtn.classList.remove('admin-only');
+      const orderData = collectOrder();
+      renderPrintSheet({
+        produto,
+        order: orderData,
+        pagamento: getPagamento(),
+        entrega: getEntrega(),
+      });
+      window.print();
     });
   }
   if (pedidoNumeroInput) pedidoNumeroInput.value = generateOrderNumber();
@@ -354,4 +368,62 @@ function parsePriceFromSelo(selo = '') {
   if (!match) return NaN;
   const normalized = match[1].replace('.', '').replace(',', '.');
   return Number(normalized);
+}
+
+function verifyPrintAccess() {
+  const stored = localStorage.getItem('print-access');
+  if (stored === 'granted') return true;
+  const code = window.prompt('Digite o PIN de impressão');
+  if (code === PRINT_PIN) {
+    localStorage.setItem('print-access', 'granted');
+    return true;
+  }
+  alert('PIN incorreto.');
+  return false;
+}
+
+function hasPrintAccess() {
+  return localStorage.getItem('print-access') === 'granted';
+}
+
+function renderPrintSheet({ produto, order, pagamento, entrega }) {
+  if (!printSheet || !order) return;
+  const extrasList = order.extras.length
+    ? order.extras.map((e) => `<li><span>${e.q}x ${e.nome}</span><span>${formatPrice(getPreco(e) * e.q)}</span></li>`).join('')
+    : '<li><span>Sem adicionais</span><span>—</span></li>';
+  const entregaLabel = entrega || 'Não informado';
+  const pagamentoLabel = pagamento || 'Não informado';
+  const dataAtual = formatDateTime();
+
+  printSheet.innerHTML = `
+    <section class="print-card">
+      <div class="print-logo">CHARM SUCRÉ</div>
+      <div class="print-title">PEDIDO #${order.pedidoNumero || '—'}</div>
+      <div class="print-meta-row"><span>Data</span><span>${dataAtual}</span></div>
+      <div class="print-divider"></div>
+      <div class="print-meta-row"><span>Cliente</span><span>${order.clienteNome || '—'}</span></div>
+      <div class="print-meta-row"><span>Entrega/Retirada</span><span>${entregaLabel}</span></div>
+      <div class="print-meta-row"><span>Pagamento</span><span>${pagamentoLabel}</span></div>
+      <div class="print-divider thick"></div>
+      <ul class="print-items">
+        <li><span>${order.qtd}x ${produto.nome}</span><span>${formatPrice(getPreco(produto) * order.qtd)}</span></li>
+      </ul>
+      <div class="print-subtitle">Adicionais</div>
+      <ul class="print-items">${extrasList}</ul>
+      <div class="print-divider"></div>
+      <div class="print-total"><span>Total</span><span>${formatPrice(order.total)}</span></div>
+      <div class="print-note">Obrigado! Apresente esta comanda na produção/entrega.</div>
+    </section>
+  `;
+  printSheet.setAttribute('aria-hidden', 'false');
+}
+
+function formatDateTime() {
+  return new Date().toLocaleString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
 }
