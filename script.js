@@ -6,7 +6,7 @@ const produtos = [
 
 
 
-  { id: 3, nome: 'Pistache Dubai', categoria: 'tortas', preco: 30.0, descricao: 'Base crocante, delicado mousse de pistache, com uma camada de pasta pura de pistache, finalizada com ganache de chocolate branco e pistaches triturados para decorar.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.32.15.jpeg', selo: 'R$30,00' },
+  { id: 3, nome: 'Pistache Dubai', categoria: 'tortas', preco: 30.0, descricao: 'Base crocante, delicado mousse de pistache, com uma camada de pasta pura de pistache, finalizada com ganache de chocolate branco e pistaches triturados para decorar.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.32.15.jpeg', selo: 'R$21,00' },
 
 
   { id: 4, nome: 'Red Velvet', categoria: 'tortas', preco: 29.0, descricao: 'Deliciosa torta Red Velvet, com base de biscoito amanteigado, mousse de cream cheese e finalizado com uma deliciosa geleia de morango.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.32.42.jpeg', selo: 'R$29,00' },
