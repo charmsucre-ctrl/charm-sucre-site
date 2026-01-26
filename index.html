@@ -24,7 +24,7 @@
                 <a href="#hero">Início</a>
                 <a href="#menu">Cardápio</a>
                 <a href="#contact">Contato</a>
-                <a id="print-link" href="../tcc/index.html" target="_blank" rel="noopener noreferrer">Impressão</a>
+                <a id="print-link" href="https://charmsucre-ctrl.github.io/charmsucre-print/" target="_blank" rel="noopener noreferrer">Impressão</a>
             </nav>
             <a class="cta" href="#contact">Fazer Pedido</a>
         </div>
@@ -172,19 +172,6 @@
         </div>
     </div>
 
-        <script>
-            // Ajusta link da página de impressão para funcionar em GitHub Pages (repo path).
-            (function() {
-                const link = document.getElementById('print-link');
-                if (!link) return;
-                const parts = window.location.pathname.split('/');
-                const idx = parts.indexOf('site-doces');
-                if (idx > -1) {
-                    const base = parts.slice(0, idx).join('/') || '';
-                    link.href = `${base}/tcc/`;
-                }
-            })();
-        </script>
         <script src="script.js"></script>
 </body>
 </html>
