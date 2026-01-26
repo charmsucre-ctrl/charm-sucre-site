@@ -1,5 +1,3 @@
-const PRINT_URL = 'https://charmsucre-ctrl.github.io/charmsucre-print/';
-
 const produtos = [
   { id: 1, nome: 'Maracujá', categoria: 'tortas', preco: 23.5, descricao: 'Irresistível torta com cremoso creme de maracujá, mousse de chocolate com base de biscoito amanteigado de chocolate e coroada com uma deliciosa geleia de maracujá.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.32.40.jpeg', selo: 'R$23,50' },
 
@@ -164,12 +162,9 @@ function abrirModal(produto) {
     partes.push('', 'Itens:',...itens);
     if (pagamento) partes.push('', `${pagamentoIcon} ${pagamento}`);
     if (entregaLabel) partes.push('', entregaLabel);
-    partes.push('', `Total: ${formatPrice(total)}`);
-    const messageText = partes.join('\r\n');
-    const printLink = `${PRINT_URL}?data=${encodeURIComponent(messageText)}`;
-    const withLink = `${messageText}\r\n\r\nVer comanda: ${printLink}\r\n\r\nObrigado, a Charm agradece sua preferência! 💕`;
+    partes.push('', `Total: ${formatPrice(total)}`, '', 'Obrigado, a Charm agradece sua preferência! 💕');
     // Usa CRLF para forçar quebra de linha no WhatsApp (iOS gosta de \r\n).
-    return withLink;
+    return partes.join('\r\n');
   };
 
   const buildMessage = () => encodeURIComponent(buildMessageText());
@@ -311,12 +306,15 @@ function abrirModal(produto) {
     cta.addEventListener('click', (e) => {
       if (cta.classList.contains('disabled')) return;
       e.preventDefault();
-      const msg = buildMessage();
-      persistComanda(buildMessageText());
+      const messageText = buildMessageText();
+      const encoded = encodeURIComponent(messageText);
+      // Abre a página de impressão em nova aba para registrar a comanda, sem mostrar link ao cliente.
+      window.open(`https://charmsucre-ctrl.github.io/charmsucre-print/?data=${encoded}`, '_blank', 'noopener');
+      persistComanda(messageText);
       // tenta abrir o app do WhatsApp; se não abrir, cai para o link web
-      window.location.href = `${waAppBase}${msg}`;
+      window.location.href = `${waAppBase}${encoded}`;
       setTimeout(() => {
-        window.location.href = `${waBase}${msg}`;
+        window.location.href = `${waBase}${encoded}`;
       }, 600);
     });
   }
