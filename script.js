@@ -140,7 +140,7 @@ function abrirModal(produto) {
     return { qtd, extras, pagamento, entrega, total, clienteNome, pedidoNumero };
   };
 
-  const buildMessage = () => {
+  const buildMessageText = () => {
     const { qtd, extras, pagamento, entrega, total, clienteNome, pedidoNumero } = collectOrder();
     const itens = [`➡ ${qtd}x ${produto.nome}`];
     if (extras.length) {
@@ -164,7 +164,20 @@ function abrirModal(produto) {
     if (entregaLabel) partes.push('', entregaLabel);
     partes.push('', `Total: ${formatPrice(total)}`, '', 'Obrigado, a Charm agradece sua preferência! 💕');
     // Usa CRLF para forçar quebra de linha no WhatsApp (iOS gosta de \r\n).
-    return encodeURIComponent(partes.join('\r\n'));
+    return partes.join('\r\n');
+  };
+
+  const buildMessage = () => encodeURIComponent(buildMessageText());
+
+  const persistComanda = (texto) => {
+    try {
+      const raw = localStorage.getItem('comanda-list');
+      const list = raw ? JSON.parse(raw) : [];
+      const updated = [...list, { id: Date.now(), texto }].slice(-50);
+      localStorage.setItem('comanda-list', JSON.stringify(updated));
+    } catch (err) {
+      console.error('Erro ao salvar comanda', err);
+    }
   };
 
   modalBody.innerHTML = `
@@ -294,6 +307,7 @@ function abrirModal(produto) {
       if (cta.classList.contains('disabled')) return;
       e.preventDefault();
       const msg = buildMessage();
+      persistComanda(buildMessageText());
       // tenta abrir o app do WhatsApp; se não abrir, cai para o link web
       window.location.href = `${waAppBase}${msg}`;
       setTimeout(() => {
