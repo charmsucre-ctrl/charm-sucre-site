@@ -1,3 +1,5 @@
+const PRINT_URL = 'https://charmsucre-ctrl.github.io/charmsucre-print/';
+
 const produtos = [
   { id: 1, nome: 'Maracujá', categoria: 'tortas', preco: 23.5, descricao: 'Irresistível torta com cremoso creme de maracujá, mousse de chocolate com base de biscoito amanteigado de chocolate e coroada com uma deliciosa geleia de maracujá.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.32.40.jpeg', selo: 'R$23,50' },
 
@@ -162,9 +164,12 @@ function abrirModal(produto) {
     partes.push('', 'Itens:',...itens);
     if (pagamento) partes.push('', `${pagamentoIcon} ${pagamento}`);
     if (entregaLabel) partes.push('', entregaLabel);
-    partes.push('', `Total: ${formatPrice(total)}`, '', 'Obrigado, a Charm agradece sua preferência! 💕');
+    partes.push('', `Total: ${formatPrice(total)}`);
+    const messageText = partes.join('\r\n');
+    const printLink = `${PRINT_URL}?data=${encodeURIComponent(messageText)}`;
+    const withLink = `${messageText}\r\n\r\nVer comanda: ${printLink}\r\n\r\nObrigado, a Charm agradece sua preferência! 💕`;
     // Usa CRLF para forçar quebra de linha no WhatsApp (iOS gosta de \r\n).
-    return partes.join('\r\n');
+    return withLink;
   };
 
   const buildMessage = () => encodeURIComponent(buildMessageText());
