@@ -13,7 +13,7 @@ const produtos = [
 
 
 
-  { id: 5, nome: 'Ninho com nutella', categoria: 'tortas', preco: 26.5, descricao: 'Base biscoito amanteigado de chocolate, suave creme mousse de ninho, recheado com nutella e uma generosa cobertura de nutella.', imagem: 'img/WhatsApp Image 2025-11-27 at 01.09.26.jpeg', selo: 'R$26,50' },
+  { id: 5, nome: 'Ninho com nutella', categoria: 'tortas', preco: 26.5, descricao: 'Base biscoito amanteigado de chocolate, suave creme mousse de ninho, recheado com nutella e uma generosa cobertura de nutella.', imagem: 'img/WhatsApp Image 2025-11-27 at 01.09.26.jpeg', selo: 'Esgotado' },
 
 
 
