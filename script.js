@@ -169,16 +169,6 @@ function abrirModal(produto) {
 
   const buildMessage = () => encodeURIComponent(buildMessageText());
 
-  const persistComanda = (texto) => {
-    try {
-      const raw = localStorage.getItem('comanda-list');
-      const list = raw ? JSON.parse(raw) : [];
-      const updated = [...list, { id: Date.now(), texto }].slice(-50);
-      localStorage.setItem('comanda-list', JSON.stringify(updated));
-    } catch (err) {
-      console.error('Erro ao salvar comanda', err);
-    }
-  };
 
   modalBody.innerHTML = `
     <div class="img-shell" style="height:240px; margin-bottom: 1rem;">
@@ -306,15 +296,11 @@ function abrirModal(produto) {
     cta.addEventListener('click', (e) => {
       if (cta.classList.contains('disabled')) return;
       e.preventDefault();
-      const messageText = buildMessageText();
-      const encoded = encodeURIComponent(messageText);
-      // Abre a página de impressão em nova aba para registrar a comanda, sem mostrar link ao cliente.
-      window.open(`https://charmsucre-ctrl.github.io/charmsucre-print/?data=${encoded}`, '_blank', 'noopener');
-      persistComanda(messageText);
+      const msg = buildMessageText();
       // tenta abrir o app do WhatsApp; se não abrir, cai para o link web
-      window.location.href = `${waAppBase}${encoded}`;
+      window.location.href = `${waAppBase}${encodeURIComponent(msg)}`;
       setTimeout(() => {
-        window.location.href = `${waBase}${encoded}`;
+        window.location.href = `${waBase}${encodeURIComponent(msg)}`;
       }, 600);
     });
   }
