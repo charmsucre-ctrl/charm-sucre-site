@@ -6,10 +6,10 @@ const produtos = [
 
 
 
-  { id: 3, nome: 'Pistache Dubai', categoria: 'tortas', preco: 30.0, descricao: 'Base crocante, delicado mousse de pistache, com uma camada de pasta pura de pistache, finalizada com ganache de chocolate branco e pistaches triturados para decorar.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.32.15.jpeg', selo: 'R$21,00' },
+  { id: 3, nome: 'Pistache Dubai', categoria: 'tortas', preco: 30.0, descricao: 'Base crocante, delicado mousse de pistache, com uma camada de pasta pura de pistache, finalizada com ganache de chocolate branco e pistaches triturados para decorar.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.32.15.jpeg', selo: 'Esgotado' },
 
 
-  { id: 4, nome: 'Red Velvet', categoria: 'tortas', preco: 29.0, descricao: 'Deliciosa torta Red Velvet, com base de biscoito amanteigado, mousse de cream cheese e finalizado com uma deliciosa geleia de morango.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.32.42.jpeg', selo: 'R$29,00' },
+  { id: 4, nome: 'Red Velvet', categoria: 'tortas', preco: 29.0, descricao: 'Deliciosa torta Red Velvet, com base de biscoito amanteigado, mousse de cream cheese e finalizado com uma deliciosa geleia de morango.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.32.42.jpeg', selo: 'R$15,00' },
 
 
 
@@ -20,7 +20,7 @@ const produtos = [
   { id: 6, nome: 'Triplo Chocolate', categoria: 'tortas', preco: 29.0, descricao: 'Deliciosa combinação de três camadas de mousse: chocolate meio amargo, chocolate ao leite e chocolate branco. Finalizada com uma suave ganache de chocolate branco e um Kinder Bueno como toque especial. Uma experiência cremosa e irresistível para os verdadeiros amantes de chocolate.', imagem: 'img/WhatsApp Image 2025-11-29 at 11.03.40.jpeg', selo: 'Esgotado' },
 
 
-  { id: 7, nome: 'Ferrero Rocher', categoria: 'tortas', preco: 26.5, descricao: 'Base de biscoito amanteigado de chocolate recheada com nossa mousse de avelã coberta com ganache de chocolate belga e amendoim torrado. Perfeita para amantes de ferreiro rocher.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.32.14.jpeg', selo: 'R$26,50' },
+  { id: 7, nome: 'Ferrero Rocher', categoria: 'tortas', preco: 26.5, descricao: 'Base de biscoito amanteigado de chocolate recheada com nossa mousse de avelã coberta com ganache de chocolate belga e amendoim torrado. Perfeita para amantes de ferreiro rocher.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.32.14.jpeg', selo: 'R$15,00' },
 
 
   { id: 8, nome: 'Banoffe', categoria: 'tortas', preco: 17.0, descricao: 'Base crocante, doce de leite, bananas frescas e uma capa irresistível de chantilly, adicionamos ainda mais encanto com canela polvilhada.', imagem: 'img/WhatsApp Image 2025-12-08 at 18.58.43.jpeg', selo: 'Esgotado' },
@@ -29,7 +29,7 @@ const produtos = [
   { id: 9, nome: 'Choco oreo', categoria: 'tortas', preco: 24.0, descricao: 'Base biscoito oreo, creme mousse de oreo, mousse de chocolate coberto com nossa deliciosa ganache de chocolate belga.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.00.12.jpeg', selo: 'Esgotado' },
 
 
-  { id: 10, nome: 'Pink', categoria: 'tortas', preco: 26.0, descricao: 'Base crocante de biscoito amanteigado, coberta por um mousse de morango delicado com pedacinhos de frutas vermelhas frescas, finalizada com mousse de limão cremoso que traz equilíbrio e frescor a cada fatia.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.00.13.jpeg', selo: 'R$26,00' },
+  { id: 10, nome: 'Pink', categoria: 'tortas', preco: 26.0, descricao: 'Base crocante de biscoito amanteigado, coberta por um mousse de morango delicado com pedacinhos de frutas vermelhas frescas, finalizada com mousse de limão cremoso que traz equilíbrio e frescor a cada fatia.', imagem: 'img/WhatsApp Image 2025-11-28 at 14.00.13.jpeg', selo: 'R$15,00' },
 
 
   { id: 11, nome: 'Limão', categoria: 'tortas', preco: 20.0, descricao: 'Deliciosa torta de limão com base de biscoito amanteigado, mousse de limão, finalizada com merengue flambado.', imagem: 'img/WhatsApp Image 2025-12-08 at 19.17.36.jpeg', selo: 'Esgotado' },
